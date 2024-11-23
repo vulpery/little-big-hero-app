@@ -54,7 +54,7 @@ export default function QuestsPage() {
         router.push("/game/");
       } catch (error) {
         console.error("Failed to create quest:", error);
-        setError(error.message);
+        setError(String(error));
       } finally {
         setIsSubmitting(false);
       }
