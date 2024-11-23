@@ -77,7 +77,7 @@ export default function QuestList() {
   ] as any as Quest[];
   return (
     <div className="flex min-h-screen w-full flex-col items-start p-4">
-      <h1 className="text-4xl font-bold text-primary">Quests</h1>
+      <h1 className="text-4xl font-bold text-primary">Open Quests</h1>
       <div className="flex gap-2 flex-col w-full py-4">
         {quests.map((quest) => (
           <QuestListItem key={quest.quest_id} quest={quest} />
