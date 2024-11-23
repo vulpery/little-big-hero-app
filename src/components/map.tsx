@@ -1,7 +1,8 @@
 "use client"; // Necessary for Next.js 13 with the App Router
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import Map, { Marker, ViewStateChangeEvent, MapProps } from "react-map-gl";
+import { Coordinates } from "@/app/game/page";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Map, { Marker, ViewStateChangeEvent } from "react-map-gl";
 
 interface Quest {
   id: string;
@@ -18,12 +19,18 @@ interface ViewState {
   [key: string]: any; // For additional properties
 }
 
-const MapView: React.FC = () => {
+export default function MapView({ location }: { location: Coordinates }) {
   const [viewState, setViewState] = useState<ViewState>({
     longitude: -100,
     latitude: 40,
-    zoom: 3,
+    zoom: 12,
   });
+
+  useEffect(() => {
+    setViewState({
+      ...location,
+    });
+  }, [location]);
 
   const [quests, setQuests] = useState<Quest[]>([]);
 
@@ -68,14 +75,14 @@ const MapView: React.FC = () => {
           </div>
         </Marker>
       )),
-    [quests]
+    [quests],
   );
 
   return (
     <Map
       {...viewState}
       onMove={onMove}
-      mapStyle="mapbox://styles/mapbox/streets-v11"
+      mapStyle="mapbox://styles/mapbox/streets-v9"
       style={{
         flex: 1,
         width: "100%",
@@ -88,6 +95,4 @@ const MapView: React.FC = () => {
       {markers}
     </Map>
   );
-};
-
-export default MapView;
+}
