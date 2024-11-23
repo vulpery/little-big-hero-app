@@ -9,11 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { startTransition, useState } from "react";
 
-export default function QuestsPage({
-  creator_wallet,
-}: {
-  creator_wallet: string;
-}) {
+export default function QuestsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -74,7 +70,11 @@ export default function QuestsPage({
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
-          {error && <div className="text-white w-full p-2 bg-red-400 rounded-sm my-2">{error}</div>}
+          {error && (
+            <div className="text-white w-full p-2 bg-red-400 rounded-sm my-2">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <Label htmlFor="title" className="text-lg font-semibold">
               Title
