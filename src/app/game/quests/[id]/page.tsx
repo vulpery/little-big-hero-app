@@ -2,12 +2,13 @@ import QuestDetails from "../../../../components/quests/quest-details";
 
 export default function QuestDetailPage() {
   const quest = {
-    title: "Defeat the Dragon",
-    description: "Slay the dragon terrorizing the village.",
-    location: "Dragon's Lair",
+    title: "Meet for a coffee together",
+    description:
+      "I would love to talk to someone while drinking a coffee together in my most loved caffee.",
+    location: "Caffee 'The best coffee in the world'",
     time_window: {
-      start_time: "2023-01-15T09:00:00Z",
-      end_time: "2023-01-15T17:00:00Z",
+      start_time: "2023-01-15T15:00:00Z",
+      end_time: "2023-01-15T16:00:00Z",
     },
     rewards: {
       experience_points: 500,
