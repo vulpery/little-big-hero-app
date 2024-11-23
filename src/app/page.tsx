@@ -13,7 +13,7 @@ export default function Home() {
         <img
           className="relative"
           src={MetaplexLogo.src}
-          alt="<Metaplex Logo"
+          alt="Metaplex Logo"
           width={500}
         />
       </div>
