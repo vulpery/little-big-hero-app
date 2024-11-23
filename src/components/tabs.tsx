@@ -18,7 +18,7 @@ export default function BottomTabNavigation() {
   return (
     <div className="fixed flex items-center bottom-0 left-0 w-full bg-white border-t border-gray-200 h-[8vh] text-primary">
       <div className="flex justify-around w-full h-full">
-        <TabItem href={`${rootUrl}/avatar`} Icon={CircleUser} />
+        <TabItem href={`${rootUrl}/profile`} Icon={CircleUser} />
         <TabItem href={`${rootUrl}/quests`} Icon={BookMarked} />
         <TabItem href={`${rootUrl}`} Icon={Map} />
       </div>
