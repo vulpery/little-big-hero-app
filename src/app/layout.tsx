@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { UmiProvider } from "@/providers/umiProvider";
+import BottomTabNavigation from "../components/tabs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,10 @@ export default function RootLayout({
       <UmiProvider>
         <html lang="en">
           <body className={inter.className}>
-            <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
+            <ThemeProviderWrapper>
+              {children}
+              <BottomTabNavigation />
+            </ThemeProviderWrapper>
           </body>
         </html>
       </UmiProvider>
