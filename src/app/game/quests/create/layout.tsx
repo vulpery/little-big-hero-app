@@ -3,5 +3,5 @@ export default function QuestsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <div className="max-h-[92vh] overflow-y-scroll">{children}</div>;
 }
