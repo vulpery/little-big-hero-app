@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { UserRoundPen } from "lucide-react";
 import Link from "next/link";
+import LogoutButton from "../../../components/ui/logout-button";
 
 export default function Profile() {
   const lvl = "3";
@@ -11,6 +12,7 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col h-screen">
+      <LogoutButton />
       <div
         className="w-full object-cover overflow-hidden"
         style={{ flexBasis: "225px" }}
