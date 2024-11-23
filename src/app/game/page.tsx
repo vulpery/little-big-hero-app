@@ -1,5 +1,6 @@
 "use client";
 import MapView from "@/components/map";
+import Link from "next/link";
 import { ListIcon, LocateIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -105,9 +106,11 @@ export default function GamePage() {
       <div className="absolute rounded-full right-6 bottom-36 h-[48px] w-[48px] z-[99999] bg-black flex items-center">
         <ListIcon className="text-white m-auto" />
       </div>
-      <div className="absolute rounded-full right-6 bottom-20 h-[48px] w-[48px] z-[99999] bg-black flex items-center">
-        <PlusIcon className="text-white m-auto" />
-      </div>
+      <Link href="/game/quests/create">
+        <div className="absolute rounded-full right-6 bottom-20 h-[48px] w-[48px] z-[99999] bg-black flex items-center">
+          <PlusIcon className="text-white m-auto" />
+        </div>
+      </Link>
     </div>
   );
 }
