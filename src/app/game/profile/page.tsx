@@ -71,7 +71,7 @@ export default function Profile() {
         </div>
 
         <div className="w-3/4 flex">
-          <p className="text-black pr-4">{lvl}</p>
+          <p className="text-black pr-4">Lvl. {lvl}</p>
           <Progress
             className=" self-center static"
             indicatorColor="bg-orange-700"
