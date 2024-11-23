@@ -1,9 +1,10 @@
 import { ThemeProviderWrapper } from "@/providers/themeProvider";
+import { UmiProvider } from "@/providers/umiProvider";
 import { WalletAdapterProvider } from "@/providers/walletAdapterProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import BottomTabNavigation from "../components/tabs";
 import "./globals.css";
-import { UmiProvider } from "@/providers/umiProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <UmiProvider>
         <html lang="en">
           <body className={inter.className}>
-            <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
+            <ThemeProviderWrapper>
+              {children}
+            </ThemeProviderWrapper>
           </body>
         </html>
       </UmiProvider>
