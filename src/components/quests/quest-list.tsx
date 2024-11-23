@@ -24,6 +24,26 @@ export default function QuestList() {
       updated_at: "2023-01-12T12:00:00Z",
     },
     {
+      title: "Go eat some Chilli",
+      description:
+        "I would love to eat some chilli with someone. I love spicy food and I would love to share this experience with someone.",
+      location: "Chilli's Restaurant in the TUM Informatics Building",
+      time_window: {
+        start_time: "2024-11-23T18:30:00Z",
+        end_time: "2024-11-23T19:30:00Z",
+      },
+      rewards: {
+        experience_points: 7050,
+        items: ["sword_of_chilli"],
+      },
+      quest_id: "f47ac10b-58cc-4372-a567-0e02b2c3d4791",
+      creator_wallet: "0xabcdefabcdefabcdefabcdefabcdefabcdef",
+      participant_wallet: "0x1234567890abcdef1234567890abcdef12345678",
+      status: "available" as "available",
+      created_at: "2023-01-10T10:00:00Z",
+      updated_at: "2023-01-12T12:00:00Z",
+    },
+    {
       title: "Defeat the Dragon",
       description: "Slay the dragon terrorizing the village.",
       location: "Dragon's Lair",

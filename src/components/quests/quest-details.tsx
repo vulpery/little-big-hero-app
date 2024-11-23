@@ -31,14 +31,12 @@ export default function QuestDetails({ quest }: { quest: Quest }) {
         <p className="text-sm text-gray-600">{quest.location}</p>
       </section>
 
-      <section className="mb-6">
+      <section className="mb-6 text-gray-600">
         <h2 className="text-lg font-semibold text-gray-800">Time Window</h2>
-        <p className="text-sm text-gray-600">
-          Start: {new Date(quest.time_window.start_time).toLocaleString()}
+        <p>
+          👋 Starts on {new Date(quest.time_window.start_time).toDateString()}
         </p>
-        <p className="text-sm text-gray-600">
-          End: {new Date(quest.time_window.end_time).toLocaleString()}
-        </p>
+        <p>🏁 Ends on {new Date(quest.time_window.end_time).toDateString()}</p>
       </section>
 
       <section className="mb-6 flex justify-between items-center">

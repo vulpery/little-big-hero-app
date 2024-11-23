@@ -29,11 +29,13 @@ export default function QuestListItem({ quest }: { quest: Quest }) {
         </div>
         <CardContent className="text-sm text-slate-600">
           <p>
-            {quest.rewards.experience_points} <b>XP</b>
+            👋 Starts on {new Date(quest.time_window.start_time).toDateString()}
           </p>
           <p>
-            🏁 Starts on {new Date(quest.time_window.start_time).toDateString()}
             🏁 Ends on {new Date(quest.time_window.end_time).toDateString()}
+          </p>
+          <p className="pt-2">
+            {quest.rewards.experience_points} <b>XP</b>
           </p>
         </CardContent>
       </Card>
