@@ -46,7 +46,6 @@ export default function QuestDetails({ quest }: { quest: Quest }) {
         </p>
       </section>
 
-      {/* Footer */}
       <footer className="text-center mt-8">
         <Button className="px-4 py-2 rounded-md bg-orange-600 text-white text-sm hover:bg-orange-700 transition-colors">
           <Link
