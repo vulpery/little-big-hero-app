@@ -6,9 +6,9 @@ export default function GameLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="overflow-hidden w-full">
       {children}
       <BottomTabNavigation />
-    </>
+    </div>
   );
 }

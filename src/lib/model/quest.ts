@@ -1,3 +1,5 @@
+import { Item } from "./item";
+
 export interface Quest {
   quest_id: string;
   creator_wallet: string;
@@ -11,7 +13,7 @@ export interface Quest {
   };
   rewards: {
     experience_points: number;
-    items: string[];
+    items: Item[];
   };
   status: "available" | "in_progress" | "completed";
   created_at: string;
