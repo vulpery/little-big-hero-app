@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function QuestDetails({ quest }: { quest: Quest }) {
   return (
     <div className="px-4 py-6 pb-20">
-      <header className="mb-4 flex flex-col gap-2 items-center justify-center">
+      <header className="mb-4 flex flex-col gap-2 items-center justify-center text-center">
         <Avatar className="w-16 h-16">
           <AvatarImage src={AvatarImg.src} />
           <AvatarFallback>
@@ -46,7 +46,6 @@ export default function QuestDetails({ quest }: { quest: Quest }) {
         </p>
       </section>
 
-      {/* Footer */}
       <footer className="text-center mt-8">
         <Button className="px-4 py-2 rounded-md bg-orange-600 text-white text-sm hover:bg-orange-700 transition-colors">
           <Link
