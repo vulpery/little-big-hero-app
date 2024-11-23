@@ -1,16 +1,42 @@
 import Avatar from "@/assets/avatar/male.png";
 import Background from "@/assets/backgrounds/501501-munich.png";
+import Beer from "@/assets/items/beer-removebg-preview.png";
+import Cat from "@/assets/items/cat-removebg-preview.png";
+import Dog from "@/assets/items/dog-removebg-preview.png";
+import BavarianHat from "@/assets/items/hat-removebg-preview.png";
+import StrawHat from "@/assets/items/hat2-removebg-preview.png";
+import Helmet from "@/assets/items/helmet-removebg-preview.png";
+import Prezel from "@/assets/items/prezel-removebg-preview.png";
+import Sword from "@/assets/items/sword-removebg-preview.png";
+import WizardHat from "@/assets/items/wizard-hat-removebg-preview.png";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { UserRoundPen } from "lucide-react";
 import Link from "next/link";
 
+interface Item {
+  id: number;
+  name: string;
+  img: string;
+}
+
 export default function Profile() {
   const lvl = "3";
-  const items = Array.from({ length: 50 }, (_, i) => `Item ${i + 1}`);
+  const items: Item[] = [
+    { id: 1, name: "Helmet", img: Helmet.src },
+    { id: 2, name: "Wizard Hat", img: WizardHat.src },
+    { id: 3, name: "Bavarian Hat", img: BavarianHat.src },
+    { id: 4, name: "Straw Hat", img: StrawHat.src },
+    { id: 5, name: "Master Sword", img: Sword.src },
+    { id: 6, name: "Beer", img: Beer.src },
+    { id: 7, name: "Brezn", img: Prezel.src },
+    { id: 8, name: "Cat", img: Cat.src },
+    { id: 9, name: "Dog", img: Dog.src },
+    // Add more items as needed
+  ];
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen h-[92vh] max-h-[92vh]">
       <div
         className="w-full object-cover overflow-hidden"
         style={{ flexBasis: "225px" }}
@@ -59,10 +85,14 @@ export default function Profile() {
           <div className="w-100% grid grid-cols-4 gap-4">
             {items.map((item) => (
               <div
-                key={item}
-                className="p-2 border border-gray-300 bg-white shadow rounded-md"
+                key={item.id}
+                className="flex justify-center p-2 border border-gray-300 bg-white shadow rounded-md h-20 w-20"
               >
-                {item}
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="flex w-12 h-12 object-cover self-center"
+                />
               </div>
             ))}
           </div>
