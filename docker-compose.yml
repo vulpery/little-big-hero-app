@@ -1,0 +1,9 @@
+services:
+  little-big-hero-app:
+    container_name: little-big-hero-app
+    image: vulpery/little-big-hero-app:latest
+    build:
+      context: .
+    restart: always
+    ports:
+      - 3000:3000

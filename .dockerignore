@@ -1,0 +1,7 @@
+node_modules
+.github
+.next
+.pnpm-store
+.vscode
+Dockerfile
+docker-compose.yml
