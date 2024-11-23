@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import ThemeSwitcher from "./themeSwitcher";
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -18,7 +17,6 @@ const Header = () => {
       </p>
       <div className="flex pt-4 lg:pt-0 w-full items-end justify-center gap-4 lg:static lg:size-auto lg:bg-none">
         <WalletMultiButtonDynamic />
-        <ThemeSwitcher />
       </div>
     </div>
   );
