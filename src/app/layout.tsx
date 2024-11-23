@@ -3,6 +3,7 @@ import { UmiProvider } from "@/providers/umiProvider";
 import { WalletAdapterProvider } from "@/providers/walletAdapterProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { UserProvider } from "../lib/services/UserProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,14 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <WalletAdapterProvider>
-      <UmiProvider>
-        <html lang="en">
-          <body className={inter.className}>
-            <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
-          </body>
-        </html>
-      </UmiProvider>
-    </WalletAdapterProvider>
+    <UserProvider>
+      <WalletAdapterProvider>
+        <UmiProvider>
+          <html lang="en">
+            <body className={inter.className}>
+              <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
+            </body>
+          </html>
+        </UmiProvider>
+      </WalletAdapterProvider>
+    </UserProvider>
   );
 }

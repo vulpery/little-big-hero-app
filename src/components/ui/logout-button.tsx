@@ -2,14 +2,20 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { DoorOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useUser } from "../../lib/services/UserProvider";
+import { UserService } from "../../lib/services/UserService";
 import { Button } from "./button";
 
 export default function LogoutButton() {
+  const { logout } = useUser();
   const router = useRouter();
   const wallet = useWallet();
+  const userService = UserService.INSTANCE;
 
   async function disconnect() {
     if (wallet.connected) await wallet.disconnect();
+    await userService.logout();
+    logout();
     router.push("/");
   }
 
