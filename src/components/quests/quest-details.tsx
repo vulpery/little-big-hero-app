@@ -6,9 +6,11 @@ import { Check, Sparkles, UserCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { User } from "../../lib/model/user";
 import { QuestService } from "../../lib/services/QuestService";
+import { useUser } from "../../lib/services/UserProvider";
 import { UserService } from "../../lib/services/UserService";
 
 export default function QuestDetails({ init_quest }: { init_quest: Quest }) {
+  const { user } = useUser();
   const [quest, setQuest] = useState(init_quest);
   const [creator, setCreator] = useState<User>();
   const questService = QuestService.INSTANCE;
@@ -23,6 +25,13 @@ export default function QuestDetails({ init_quest }: { init_quest: Quest }) {
   async function acceptQuest() {
     const q = await questService.updateQuest(quest.quest_id, {
       status: "in_progress",
+    } as any);
+    setQuest(q);
+  }
+
+  async function approveQuest() {
+    const q = await questService.updateQuest(quest.quest_id, {
+      status: "completed",
     } as any);
     setQuest(q);
   }
@@ -78,14 +87,27 @@ export default function QuestDetails({ init_quest }: { init_quest: Quest }) {
             <Sparkles color="yellow" />
           </Button>
         ) : (
-          <Button
-            className="px-4 py-2 rounded-md bg-green-400 text-black text-sm cursor-not-allowed"
-            disabled
-          >
-            <Check color="black" />
-            Quest Accepted
-          </Button>
+          quest.creator_wallet != user?.wallet_address ? (
+            <Button
+              className="px-4 py-2 rounded-md bg-green-400 text-black text-sm cursor-not-allowed"
+              disabled
+            >
+              <Check color="black" />
+              Quest Accepted
+            </Button>,
+          ) : (
+            <Button
+              className="px-4 py-2 rounded-md bg-blue-400 text-black text-sm cursor-not-allowed"
+              disabled={quest.status === "completed"}
+              onClick={() => approveQuest()}
+            >
+              Approve
+            </Button>
+          )
         )}
+        <p className="text-xs text-gray-500 mt-2">
+          {quest.status}
+        </p>
       </footer>
     </div>
   );

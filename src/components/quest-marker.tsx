@@ -52,7 +52,7 @@ const QuestMarker: React.FC<QuestMarkerProps> = ({ quest }) => {
                   Items:
                   <ul className="list-disc list-inside pl-4">
                     {quest.rewards.items.map((item, index) => (
-                      <li key={index}>{item.name}</li>
+                      <li key={index}>{item}</li>
                     ))}
                   </ul>
                 </li>
