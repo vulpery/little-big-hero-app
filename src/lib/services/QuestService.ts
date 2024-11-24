@@ -27,8 +27,8 @@ export class QuestService {
     }).then((res) => res.json());
   }
 
-  public async updateQuest(quest: Quest): Promise<Quest> {
-    return fetch(`${this.serverUrl}/quests/${quest.quest_id}`, {
+  public async updateQuest(id: string, quest: Quest): Promise<Quest> {
+    return fetch(`${this.serverUrl}/quests/${id}`, {
       method: "PUT",
       body: JSON.stringify(quest),
       headers: {

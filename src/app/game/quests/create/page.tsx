@@ -10,8 +10,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Map, { MapRef, Marker } from "react-map-gl";
+import { useUser } from "../../../../lib/services/UserProvider";
 
 export default function QuestsPage() {
+  const { user } = useUser();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -97,7 +99,7 @@ export default function QuestsPage() {
         startTime,
         endTime,
         reward,
-        creatorWallet: "0x1234567890abcdef1234567890abcdef12345679",
+        creatorWallet: user?.wallet_address || "",
       });
 
       router.push("/game/");
