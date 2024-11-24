@@ -1,7 +1,8 @@
 "use client";
+
 import MapView from "@/components/map";
+import { ListIcon, LocateIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { ListIcon, LocateIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export interface Coordinates {
@@ -20,11 +21,12 @@ export interface GeolocationError {
   message: string;
 }
 
+
 export default function GamePage() {
   const [location, setLocation] = useState<Coordinates>({
     latitude: 48.26270110800354,
-    longitude: 11.667426762268802,
-    zoom: 12,
+    longitude: 11.669426762268802,
+    zoom: 16,
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -35,7 +37,7 @@ export default function GamePage() {
           setLocation({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            zoom: 12,
+            zoom: 15,
           });
         },
         (err: GeolocationPositionError) => {
@@ -54,7 +56,7 @@ export default function GamePage() {
           setLocation({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            zoom: 12,
+            zoom: 15,
           });
         },
         (err: GeolocationPositionError) => {
@@ -76,41 +78,32 @@ export default function GamePage() {
         maxHeight: "92vh",
       }}
     >
-      <div
-        className="absolute rounded-sm right-6 top-10 h-[32px] w-[32px] z-[99999] bg-black flex items-center"
-        onClick={() =>
-          setLocation({
-            ...location,
-            zoom: location.zoom + 1,
-          })
-        }
-      >
-        <PlusIcon className="text-white m-auto" />
+      {/* Map View */}
+      <div style={{ height: "92vh", width: "100%" }}>
+        <MapView location={location} />
       </div>
+
+      {/* Locate Button */}
       <div
-        className="absolute rounded-sm right-6 top-20 h-[32px] w-[32px] z-[99999] bg-black flex items-center"
-        onClick={() => {
-          console.log("minus");
-          setLocation({
-            ...location,
-            zoom: location.zoom - 1,
-          });
-        }}
+        className="absolute rounded-full left-6 bottom-20 h-[48px] w-[48px] z-[99999] bg-black flex items-center"
+        onClick={getCurrentPosition}
       >
-        <MinusIcon className="text-white m-auto" />
-      </div>
-      <MapView location={location} />
-      <div className="absolute rounded-full left-6 bottom-20 h-[48px] w-[48px] z-[99999] bg-black flex items-center" onClick={getCurrentPosition}>
         <LocateIcon className="text-white m-auto" />
       </div>
-      <div className="absolute rounded-full right-6 bottom-36 h-[48px] w-[48px] z-[99999] bg-black flex items-center">
-        <ListIcon className="text-white m-auto" />
-      </div>
+
+      {/* Create Quest Button */}
       <Link href="/game/quests/create">
         <div className="absolute rounded-full right-6 bottom-20 h-[48px] w-[48px] z-[99999] bg-black flex items-center">
           <PlusIcon className="text-white m-auto" />
         </div>
       </Link>
+
+      {/* Error Message */}
+      {error && (
+        <div className="absolute left-1/2 transform -translate-x-1/2 top-5 bg-red-500 text-white px-4 py-2 rounded">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

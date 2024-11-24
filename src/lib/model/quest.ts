@@ -7,6 +7,8 @@ export interface Quest {
   title: string;
   description: string;
   location: string;
+  latitude: number;
+  longitude: number;
   time_window: {
     start_time: string;
     end_time: string;

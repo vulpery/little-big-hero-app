@@ -1,137 +1,113 @@
-"use client"; // Necessary for Next.js 13 with the App Router
+// src/components/MapView.tsx
+"use client";
 
 import { Coordinates } from "@/app/game/page";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import Map, { Marker, ViewStateChangeEvent } from "react-map-gl";
-
-interface Quest {
-  id: string;
-  name: string;
-  coordinates: [number, number]; // [longitude, latitude]
-  imageId: number;
-  iconSize: [number, number];
+import { Quest } from "@/lib/model/quest";
+import { QuestService } from "@/lib/services/QuestService";
+import "leaflet/dist/leaflet.css";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  ZoomControl,
+} from "react-leaflet";
+import QuestMarker from "./quest-marker";
+import L from "leaflet";
+import Avatar from "@/assets/avatar/male.png";
+interface MapViewProps {
+  location: Coordinates;
 }
 
-interface ViewState {
-  longitude: number;
-  latitude: number;
-  zoom: number;
-  pitch?: number;
-  bearing?: number;
-  [key: string]: any; // For additional properties
-}
-
-export default function MapView({ location }: { location: Coordinates }) {
-  const [viewState, setViewState] = useState<ViewState>({
-    longitude: -100,
-    latitude: 40,
-    zoom: 5,
-  });
+const Recenter = ({ location }: MapViewProps) => {
+  const map = useMap();
 
   useEffect(() => {
-    setViewState((prevState) => ({
-      ...prevState,
-      ...location,
-    }));
+    map.setView([location.latitude, location.longitude], location.zoom);
   }, [location]);
+  return null;
+};
 
+// MapView Component
+const MapView: React.FC<MapViewProps> = ({ location }) => {
   const [quests, setQuests] = useState<Quest[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Fetch quests on component mount
   useEffect(() => {
-    // For demonstration purposes, we'll use static data similar to your geojson
-    const geojsonQuests: Quest[] = [
-      {
-        id: '1',
-        name: 'Foo',
-        coordinates: [-66.324462, -16.024695],
-        imageId: 1011,
-        iconSize: [60, 60],
-      },
-      {
-        id: '2',
-        name: 'Bar',
-        coordinates: [-61.21582, -15.971891],
-        imageId: 870,
-        iconSize: [50, 50],
-      },
-      {
-        id: '3',
-        name: 'Baz',
-        coordinates: [-63.292236, -18.281518],
-        imageId: 837,
-        iconSize: [40, 40],
-      },
-    ];
-
-    setQuests(geojsonQuests);
-
-    // If you have an API endpoint, uncomment the following lines and comment out the static data above:
-    /*
-    async function fetchQuests() {
+    const fetchQuests = async () => {
       try {
-        const response = await fetch("/api/quests"); // Replace with your API endpoint
-        const data: Quest[] = await response.json();
-        setQuests(data);
-      } catch (error) {
-        console.error("Error fetching quests:", error);
+        const fetchedQuests = await QuestService.INSTANCE.getQuests();
+        console.log("Fetched Quests:", fetchedQuests);
+        setQuests(fetchedQuests);
+      } catch (err) {
+        console.error("Error fetching quests:", err);
+        setError("Failed to load quests.");
+      } finally {
+        setLoading(false);
       }
-    }
+    };
+
     fetchQuests();
-    */
   }, []);
 
-  // Update the view state when the map is moved
-  const onMove = useCallback((evt: ViewStateChangeEvent) => {
-    setViewState(evt.viewState);
-  }, []);
-
-  // Generate markers for quests
+  // Memoize markers to prevent unnecessary re-renders
   const markers = useMemo(
     () =>
-      quests.map((quest) => {
-        const [width, height] = quest.iconSize;
-        const backgroundImage = `url(https://picsum.photos/id/${quest.imageId}/${width}/${height})`;
-        return (
-          <Marker
-            key={quest.id}
-            longitude={quest.coordinates[0]}
-            latitude={quest.coordinates[1]}
-            anchor="center"
-          >
-            <div
-              className="marker"
-              style={{
-                backgroundImage,
-                width: `${width}px`,
-                height: `${height}px`,
-                backgroundSize: '100%',
-                display: 'block',
-                border: 'none',
-                borderRadius: '50%',
-                cursor: 'pointer',
-                padding: 0,
-              }}
-              onClick={() => alert(quest.name)}
-            />
-          </Marker>
-        );
-      }),
+      quests.map((quest) => <QuestMarker key={quest.quest_id} quest={quest} />),
     [quests],
   );
 
+  // Handle loading state
+  if (loading) {
+    return <div>Loading map...</div>;
+  }
+
+  // Handle error state
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const customIcon = new L.Icon({
+    iconUrl: Avatar.src,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
   return (
-    <Map
-      {...viewState}
-      onMove={onMove}
-      mapStyle="mapbox://styles/mapbox/streets-v12"
-      style={{
-        flex: 1,
-        width: "100%",
-        height: "100vh",
-      }}
-      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+    <MapContainer
+      center={[location.latitude, location.longitude]}
+      zoom={location.zoom}
+      style={{ height: "100%", width: "100%" }}
+      scrollWheelZoom={true}
+      zoomControl={false}
     >
+      <ZoomControl position="topright" />
+
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <Recenter location={location} />
       {markers}
-    </Map>
+
+      <Marker
+        position={[location.latitude, location.longitude]}
+        icon={customIcon}
+      >
+        <Popup>
+          <div className="p-2">
+            <h3 className="text-lg font-semibold">You are here!</h3>
+          </div>
+        </Popup>
+      </Marker>
+    </MapContainer>
   );
-}
+};
+
+export default MapView;
