@@ -1,6 +1,7 @@
 "use client";
 
-import Avatar from "@/assets/avatar/male.png";
+import FemaleAvatar from "@/assets/avatar/female.png";
+import MaleAvatar from "@/assets/avatar/male.png";
 import Beer from "@/assets/items/beer-removebg-preview.png";
 import Cat from "@/assets/items/cat-removebg-preview.png";
 import Dog from "@/assets/items/dog-removebg-preview.png";
@@ -35,6 +36,10 @@ export default function Edit() {
     // Add more items as needed
   ];
 
+  // State to hold which avatar is currently shown
+  const [isMale, setIsMale] = useState(true);
+  const toggleAvatar = () => setIsMale(!isMale);
+
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
   const toggleItemSelection = (id: number) => {
@@ -65,11 +70,12 @@ export default function Edit() {
         </div>
         <div className="w-45 h-45">
           <img
-            src={Avatar.src}
-            alt="Avatar"
+            src={isMale ? MaleAvatar.src : FemaleAvatar.src}
+            alt={isMale ? "Male Avatar" : "Female Avatar"}
             className="w-full h-full object-contain z-999 relative"
           />
         </div>
+
         <div className="felx felx-col">
           <Button className="flex bg-white border-none w-3  mt-8">
             <ChevronRight className="text-black" />
@@ -79,6 +85,15 @@ export default function Edit() {
           </Button>
         </div>
       </div>
+      <div className="flex justify-end ">
+        <button
+          onClick={toggleAvatar}
+          className="p-1 bg-gray-500 text-white rounded hover:bg-gray-600 w-12 h-10 text-center mr-4"
+        >
+          M/F
+        </button>
+      </div>
+
       <div className="mt-6 ml-4 overflow-auto">
         <p className="font-bold">Item Collection</p>
         <div className="mt-3">
