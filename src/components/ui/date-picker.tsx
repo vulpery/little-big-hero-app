@@ -310,7 +310,7 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         hidden: "invisible",
         ...classNames,
-      }}
+      } as any}
       components={{
         Chevron: ({ ...props }) =>
           props.orientation === "left" ? (
@@ -318,12 +318,12 @@ function Calendar({
           ) : (
             <ChevronRight className="h-4 w-4" />
           ),
-        MonthCaption: ({ calendarMonth }) => {
+        MonthCaption: ({ calendarMonth }: any) => {
           return (
             <div className="inline-flex gap-2">
               <Select
                 defaultValue={calendarMonth.date.getMonth().toString()}
-                onValueChange={(value) => {
+                onValueChange={(value: any) => {
                   const newDate = new Date(calendarMonth.date);
                   newDate.setMonth(Number.parseInt(value, 10));
                   props.onMonthChange?.(newDate);
@@ -345,7 +345,7 @@ function Calendar({
               </Select>
               <Select
                 defaultValue={calendarMonth.date.getFullYear().toString()}
-                onValueChange={(value) => {
+                onValueChange={(value: any) => {
                   const newDate = new Date(calendarMonth.date);
                   newDate.setFullYear(Number.parseInt(value, 10));
                   props.onMonthChange?.(newDate);
@@ -365,7 +365,7 @@ function Calendar({
             </div>
           );
         },
-      }}
+      } as any}
       {...props}
     />
   );
@@ -799,7 +799,7 @@ const DateTimePicker = React.forwardRef<
             mode="single"
             selected={value}
             month={month}
-            onSelect={(d) => handleSelect(d)}
+            onSelect={(d: any) => handleSelect(d)}
             onMonthChange={handleSelect}
             yearRange={yearRange}
             locale={locale}

@@ -64,7 +64,7 @@ export default function Home() {
         />
       </div>
       <h1 className="text-4xl font-bold text-center text-primary">
-        LittleBigHero
+        Little Big Hero
       </h1>
       <p className="text-center text-lg text-gray-600">
         A place where we can fight loneliness together

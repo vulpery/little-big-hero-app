@@ -1,4 +1,4 @@
-import Avatar from "@/assets/avatar/male.png";
+"use client";
 import Background from "@/assets/backgrounds/501501-munich.png";
 import Beer from "@/assets/items/beer-removebg-preview.png";
 import Cat from "@/assets/items/cat-removebg-preview.png";
@@ -10,10 +10,12 @@ import Prezel from "@/assets/items/prezel-removebg-preview.png";
 import Sword from "@/assets/items/sword-removebg-preview.png";
 import WizardHat from "@/assets/items/wizard-hat-removebg-preview.png";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/ui/loading";
 import { Progress } from "@/components/ui/progress";
 import { UserRoundPen } from "lucide-react";
 import Link from "next/link";
 import LogoutButton from "../../../components/ui/logout-button";
+import { useUser } from "../../../lib/services/UserProvider";
 
 interface Item {
   id: number;
@@ -22,7 +24,9 @@ interface Item {
 }
 
 export default function Profile() {
-  const lvl = "3";
+  const { user } = useUser();
+  const lvl = user?.level ?? 0;
+  const experience = user?.experience_points ?? 0;
   const items: Item[] = [
     { id: 1, name: "Helmet", img: Helmet.src },
     { id: 2, name: "Wizard Hat", img: WizardHat.src },
@@ -37,10 +41,10 @@ export default function Profile() {
   ];
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-gray-100">
       <LogoutButton />
       <div
-        className="w-full object-cover overflow-hidden"
+        className="w-full object-cover overflow-hidden "
         style={{ flexBasis: "225px" }}
       >
         <img
@@ -50,21 +54,27 @@ export default function Profile() {
         />
       </div>
       <div
-        className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40"
+        className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 flex items-center justify-center "
         style={{ marginTop: "180px" }}
       >
-        <img
-          src={Avatar.src}
-          alt="Avatar"
-          className="w-full h-full object-contain z-999 relative"
-        />
+        {user ? (
+          <img
+            src={user.avatar_image}
+            alt="Avatar"
+            className="w-full h-full object-contain z-999 relative"
+          />
+        ) : (
+          <Loading />
+        )}
       </div>
       <div
-        className="flex flex-1 flex-col items-center pt-12 gap-4 bg-white overflow-auto py-4"
+        className="flex flex-1 flex-col items-center gap-4 bg-white overflow-auto mt-12 p-4 pb-16"
         style={{ flexBasis: "60%" }}
       >
         <div className="flex">
-          <p className="text-black pr-4">OG Hero</p>
+          <p className="text-black pr-4">
+            {user ? user.username : <Loading />}
+          </p>
           <Link href="/game/profile/edit">
             <Button className="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full w-10 h-6">
               <UserRoundPen className="w-4 h-4" />
@@ -75,9 +85,9 @@ export default function Profile() {
         <div className="w-3/4 flex">
           <p className="text-black pr-4">Lvl. {lvl}</p>
           <Progress
-            className=" self-center static"
+            className=" self-center static shadow-sm"
             indicatorColor="bg-orange-700"
-            value={33}
+            value={user ? user.experience_points : 0}
             style={{ width: "75%", background: "lightgray" }}
           ></Progress>
         </div>
