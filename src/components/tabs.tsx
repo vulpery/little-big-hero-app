@@ -1,6 +1,8 @@
-import AvatarImg from "@/assets/avatar/male.png";
+"use client";
 import { BookMarked, Map } from "lucide-react";
 import Link from "next/link";
+import { useUser } from "../lib/services/UserProvider";
+import Loading from "./ui/loading";
 function TabItem({ Icon, href }: { Icon: JSX.Element; href: string }) {
   return (
     <Link
@@ -14,7 +16,7 @@ function TabItem({ Icon, href }: { Icon: JSX.Element; href: string }) {
 
 export default function BottomTabNavigation() {
   const rootUrl = "/game"; // Static base URL for your game routes
-
+  const { user } = useUser();
   return (
     <div className="fixed flex items-center bottom-0 left-0 w-full bg-white border-t border-gray-200 h-[8vh] text-primary">
       <div className="flex justify-around w-full h-full">
@@ -25,7 +27,14 @@ export default function BottomTabNavigation() {
           Icon={
             (
               <div className="shadow-md border-2 border-slate-700 rounded-full">
-                <img src={AvatarImg.src} className="h-7 w-7 object-contain" />
+                {user ? (
+                  <img
+                    src={user.avatar_image}
+                    className="h-7 w-7 object-contain"
+                  />
+                ) : (
+                  <Loading />
+                )}
               </div>
             ) as any
           }
