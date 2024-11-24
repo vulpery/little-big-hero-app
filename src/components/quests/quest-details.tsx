@@ -86,28 +86,24 @@ export default function QuestDetails({ init_quest }: { init_quest: Quest }) {
             Accept Quest
             <Sparkles color="yellow" />
           </Button>
+        ) : quest.creator_wallet !== user?.wallet_address ? (
+          <Button
+            className="px-4 py-2 rounded-md bg-green-400 text-black text-sm cursor-not-allowed"
+            disabled
+          >
+            <Check color="black" />
+            Quest Accepted
+          </Button>
         ) : (
-          quest.creator_wallet != user?.wallet_address ? (
-            <Button
-              className="px-4 py-2 rounded-md bg-green-400 text-black text-sm cursor-not-allowed"
-              disabled
-            >
-              <Check color="black" />
-              Quest Accepted
-            </Button>,
-          ) : (
-            <Button
-              className="px-4 py-2 rounded-md bg-blue-400 text-black text-sm cursor-not-allowed"
-              disabled={quest.status === "completed"}
-              onClick={() => approveQuest()}
-            >
-              Approve
-            </Button>
-          )
+          <Button
+            className="px-4 py-2 rounded-md bg-blue-400 text-black text-sm cursor-not-allowed"
+            disabled={quest.status === "completed"}
+            onClick={() => approveQuest()}
+          >
+            Approve
+          </Button>
         )}
-        <p className="text-xs text-gray-500 mt-2">
-          {quest.status}
-        </p>
+        <p className="text-xs text-gray-500 mt-2">{quest.status}</p>
       </footer>
     </div>
   );

@@ -1,9 +1,8 @@
 "use client";
-
 import MapView from "@/components/map";
-import { ListIcon, LocateIcon, PlusIcon } from "lucide-react";
+import { LocateIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export interface Coordinates {
   latitude: number;
@@ -21,7 +20,6 @@ export interface GeolocationError {
   message: string;
 }
 
-
 export default function GamePage() {
   const [location, setLocation] = useState<Coordinates>({
     latitude: 48.26270110800354,
@@ -30,7 +28,7 @@ export default function GamePage() {
   });
   const [error, setError] = useState<string | null>(null);
 
-  const getCurrentPosition = () => {
+  const getCurrentPosition = useCallback(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
@@ -47,7 +45,7 @@ export default function GamePage() {
     } else {
       setError("Geolocation is not supported by your browser.");
     }
-  };
+  }, []);
 
   useEffect(() => {
     if ("geolocation" in navigator) {

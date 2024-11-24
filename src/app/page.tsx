@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { UserService } from "../lib/services/UserService";
 
@@ -21,38 +21,47 @@ export default function Home() {
   const userService = UserService.INSTANCE;
   const wallet = useWallet();
 
+  const handleSignIn = useCallback(
+    async (id: string) => {
+      const user = await userService.getUser(id);
+      if (!user) {
+        userService.createUser({
+          username: id || "ABC",
+          avatar_image: DefaultAvatar.src,
+          email: id,
+          wallet_address: id,
+          experience_points: 0,
+          level: 1,
+        });
+      }
+      login(user);
+      userService.login(id);
+      router.push("/game");
+    },
+    [login, router, userService],
+  );
+
   useEffect(() => {
+    async function loginWithWallet() {
+      if (wallet.connected) {
+        const id = wallet.publicKey?.toString() || "abc";
+        //check whether the user is already existing in
+
+        await handleSignIn(id);
+      }
+    }
+
     if (wallet.connected) {
       loginWithWallet();
     }
-  }, [wallet.connected]);
-
-  async function loginWithWallet() {
-    if (wallet.connected) {
-      const id = wallet.publicKey?.toString() || "abc";
-      //check whether the user is already existing in
-
-      await handleSignIn(id);
-    }
-  }
-
-  async function handleSignIn(id: string) {
-    const user = await userService.getUser(id);
-    if (!user) {
-      userService.createUser({
-        username: id || "ABC",
-        avatar_image: DefaultAvatar.src,
-        email: id,
-        wallet_address: id,
-        experience_points: 0,
-        level: 1,
-      });
-    }
-
-    login(user);
-    userService.login(id);
-    router.push("/game");
-  }
+  }, [
+    handleSignIn,
+    login,
+    router,
+    userService,
+    wallet.connected,
+    wallet.publicKey,
+  ]);
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-4 justify-center p-6">
