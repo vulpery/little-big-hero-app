@@ -4,7 +4,10 @@ import { QuestService } from "../../../lib/services/QuestService";
 export default async function QuestListPage() {
   const questService = QuestService.INSTANCE;
 
-  const quests = (await questService.getQuests()) || [];
+  const quests =
+    (await questService.getQuests()).filter(
+      (query) => query.status != "completed",
+    ) || [];
 
   return <QuestList quests={quests} />;
 }

@@ -1,7 +1,5 @@
 "use client";
 
-import FemaleAvatar from "@/assets/avatar/female.png";
-import MaleAvatar from "@/assets/avatar/male.png";
 import Beer from "@/assets/items/beer-removebg-preview.png";
 import Cat from "@/assets/items/cat-removebg-preview.png";
 import Dog from "@/assets/items/dog-removebg-preview.png";
@@ -14,6 +12,8 @@ import WizardHat from "@/assets/items/wizard-hat-removebg-preview.png";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import Loading from "../../../../components/ui/loading";
+import { useUser } from "../../../../lib/services/UserProvider";
 
 interface Item {
   id: number;
@@ -22,6 +22,7 @@ interface Item {
 }
 
 export default function Edit() {
+  const { user } = useUser();
   const items: Item[] = [
     { id: 1, name: "Helmet", img: Helmet.src },
     { id: 2, name: "Wizard Hat", img: WizardHat.src },
@@ -69,11 +70,17 @@ export default function Edit() {
           </Button>
         </div>
         <div className="w-45 h-45">
-          <img
-            src={isMale ? MaleAvatar.src : FemaleAvatar.src}
-            alt={isMale ? "Male Avatar" : "Female Avatar"}
-            className="w-full h-full object-contain z-999 relative"
-          />
+          {user ? (
+            <img
+              src={user?.avatar_image}
+              alt={isMale ? "Male Avatar" : "Female Avatar"}
+              className="w-full h-full object-contain z-999 relative"
+            />
+          ) : (
+            <div className="w-full h-full flex justify-center items-center">
+              <Loading />
+            </div>
+          )}
         </div>
 
         <div className="felx felx-col">
